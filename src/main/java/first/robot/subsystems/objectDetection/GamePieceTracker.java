@@ -34,7 +34,7 @@ public class GamePieceTracker {
   }
 
   public static Optional<Pose2d> getGamePiece() {
-    double currentTime = Timer.getFPGATimestamp(); // gets the current time
+    double currentTime = Timer.getMonotonicTimestamp(); // gets the current time
 
     // Remove targets that are older than the threshold
     if (targets.isEmpty()) {
@@ -72,7 +72,7 @@ public class GamePieceTracker {
     avgx /= n;
     avgy /= n;
 
-    Pose2d result = new Pose2d(avgx, avgy, Rotation2d.kZero);
+    Pose2d result = new Pose2d(avgx, avgy, Rotation2d.ZERO);
     return Optional.of(result);
   }
 

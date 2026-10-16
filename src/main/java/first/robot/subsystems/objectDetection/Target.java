@@ -1,5 +1,5 @@
-package frc.robot.subsystems.objectDetection;
+package first.robot.subsystems.objectDetection;
 
-import edu.wpi.first.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Pose2d;
 
 public record Target(double timestamp, Pose2d pose) {}
