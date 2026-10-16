@@ -2,19 +2,19 @@ package first.robot.subsystems.aprilTagCam;
 
 import com.ctre.phoenix6.Utils;
 import dev.doglog.DogLog;
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.wpilibj.Alert;
-import edu.wpi.first.wpilibj.Alert.AlertType;
-import edu.wpi.first.wpilibj.Filesystem;
+import org.wpilib.math.linalg.Matrix;
+import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.fields.Field;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.math.kinematics.ChassisVelocities;
+import org.wpilib.math.numbers.N1;
+import org.wpilib.math.numbers.N3;
+import org.wpilib.net.PortForwarder;
+import org.wpilib.util.Alert;
+import org.wpilib.util.Alert.Level;
+import org.wpilib.system.Filesystem;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -30,14 +30,14 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 /** Add your docs here. */
 public class AprilTagCam {
 
-  AprilTagFieldLayout aprilTagFieldLayout;
+  Field aprilTagFieldLayout;
 
   private final PhotonCamera cam;
   private final VisionConsumer addVisionMeasurement;
   private final PhotonPoseEstimator photonEstimator;
   private final Transform3d robotToCam;
   private final Supplier<Pose2d> currRobotPose;
-  private final Supplier<ChassisSpeeds> currRobotSpeed;
+  private final Supplier<ChassisVelocities> currRobotSpeed;
   private final String ntKey;
   private final Alert visionNotConnected;
   private Pose3d[] estimPoseArray = new Pose3d[1];
@@ -50,13 +50,12 @@ public class AprilTagCam {
       Transform3d robotToCam,
       VisionConsumer addVisionMeasurement,
       Supplier<Pose2d> currRobotPose,
-      Supplier<ChassisSpeeds> currRobotSpeed) {
+      Supplier<ChassisVelocities> currRobotSpeed) {
 
     PortForwarder.add(5800, "photonvision.local", 5800);
     try {
-      // TODO: update to 2026 layouts
       aprilTagFieldLayout =
-          new AprilTagFieldLayout(
+          new Field(
               Path.of(Filesystem.getDeployDirectory().getPath(), "2026-rebuilt-welded.json"));
     } catch (IOException e) {
       e.printStackTrace();
@@ -68,7 +67,7 @@ public class AprilTagCam {
     this.currRobotPose = currRobotPose;
     this.currRobotSpeed = currRobotSpeed;
 
-    visionNotConnected = new Alert(name + " NOT CONNECTED", AlertType.kError);
+    visionNotConnected = new Alert(name + " NOT CONNECTED", name + "NOT CONNECTED", Alert.Level.HIGH);
 
     photonEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, robotToCam);
 
@@ -169,7 +168,7 @@ public class AprilTagCam {
    * @return are they filtered?
    */
   public boolean filterResults(
-      Pose3d estimPose3d, EstimatedRobotPose optionalEstimPose, ChassisSpeeds speed) {
+      Pose3d estimPose3d, EstimatedRobotPose optionalEstimPose, ChassisVelocities speed) {
     estimPoseArray[0] = estimPose3d;
     // If vision's pose estimation is above/below the ground
     double upperZBound = AprilTagCamConstants.Z_TOLERANCE;
@@ -234,10 +233,10 @@ public class AprilTagCam {
     }
 
     // if velocity or rotaion is too high
-    double xVel = speed.vxMetersPerSecond;
-    double yVel = speed.vyMetersPerSecond;
+    double xVel = speed.vx;
+    double yVel = speed.vy;
     double vel = Math.sqrt(Math.pow(yVel, 2) + Math.pow(xVel, 2));
-    double rotation = speed.omegaRadiansPerSecond;
+    double rotation = speed.omega;
 
     if (vel > AprilTagCamConstants.MAX_VELOCITY || rotation > AprilTagCamConstants.MAX_ROTATION) {
       DogLog.log(ntKey + "Rejected Pose", estimPoseArray);

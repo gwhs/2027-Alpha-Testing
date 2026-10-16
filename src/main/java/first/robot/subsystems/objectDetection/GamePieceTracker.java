@@ -1,8 +1,8 @@
-package frc.robot.subsystems.objectDetection;
+package first.robot.subsystems.objectDetection;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Timer;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.system.Timer;
 import java.util.LinkedList;
 import java.util.Optional;
 
