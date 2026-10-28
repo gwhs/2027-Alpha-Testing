@@ -7,6 +7,11 @@ package first.robot;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
 import org.wpilib.framework.TimedRobot;
+import org.wpilib.hardware.bus.CANPort;
+import org.wpilib.hardware.power.PowerDistribution;
+
+import dev.doglog.DogLog;
+import dev.doglog.DogLogOptions;
 
 public class Robot extends TimedRobot {
   private Command autonomousCommand;
@@ -14,6 +19,12 @@ public class Robot extends TimedRobot {
   private final RobotContainer robotContainer;
 
   public Robot() {
+    DogLog.setOptions(
+      new DogLogOptions().withCaptureDs(true)
+    );
+
+    DogLog.setPdh(new PowerDistribution(CANPort.CAN_S0));
+
     robotContainer = new RobotContainer();
   }
 
