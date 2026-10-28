@@ -1,8 +1,11 @@
 package first.robot.swerve;
 
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.alerts.AlertableCollection;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
@@ -26,6 +29,7 @@ import org.wpilib.math.geometry.Translation2d;
 import org.wpilib.math.system.DCMotor;
 import org.wpilib.system.Notifier;
 import org.wpilib.system.RobotController;
+import org.wpilib.units.measure.Current;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements Subsystem so it can easily
@@ -44,7 +48,29 @@ public class SwerveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder
 
   private final AlertableCollection deviceAlerts = new AlertableCollection("Swerve");
 
-  // Workshop Slide Activity
+  private TalonFX frontLeftDrive = this.getModule(0).getDriveMotor();
+  private TalonFX frontLeftTurn = this.getModule(0).getSteerMotor();
+  private CANcoder frontLeftEncoder = this.getModule(0).getEncoder();
+  private TalonFX frontRightDrive = this.getModule(1).getDriveMotor();
+  private TalonFX frontRightTurn = this.getModule(1).getSteerMotor();
+  private CANcoder frontRightEncoder = this.getModule(1).getEncoder();
+  private TalonFX backLeftDrive = this.getModule(2).getDriveMotor();
+  private TalonFX backLeftTurn = this.getModule(2).getSteerMotor();
+  private CANcoder backLeftEncoder = this.getModule(2).getEncoder();
+  private TalonFX backRightDrive = this.getModule(3).getDriveMotor();
+  private TalonFX backRightTurn = this.getModule(3).getSteerMotor();
+  private CANcoder backRightEncoder = this.getModule(3).getEncoder();
+  private Pigeon2 pigeon = this.getPigeon2();
+
+  private final StatusSignal<Current> frontLeftDriveStatorCurrent = frontLeftDrive.getStatorCurrent();
+  private final StatusSignal<Current> frontLeftTurnStatorCurrent = frontLeftTurn.getStatorCurrent();
+  private final StatusSignal<Current> frontRightDriveStatorCurrent = frontRightDrive.getStatorCurrent();
+  private final StatusSignal<Current> frontRightTurnStatorCurrent = frontRightTurn.getStatorCurrent();
+  private final StatusSignal<Current> backLeftDriveStatorCurrent = backLeftDrive.getStatorCurrent();
+  private final StatusSignal<Current> backLeftTurnStatorCurrent = backLeftTurn.getStatorCurrent();
+  private final StatusSignal<Current> backRightDriveStatorCurrent = backRightDrive.getStatorCurrent();
+  private final StatusSignal<Current> backRightTurnStatorCurrent = backRightDrive.getStatorCurrent();
+  
   private boolean isLimitAcceleration = false;
 
   private double translationSlowFactor = 1;
@@ -88,6 +114,16 @@ public class SwerveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder
     }
 
     configureAutoBuilder();
+
+    BaseStatusSignal.setUpdateFrequencyForAll(50, 
+      frontLeftDriveStatorCurrent, 
+      frontLeftTurnStatorCurrent, 
+      frontRightDriveStatorCurrent, 
+      frontRightTurnStatorCurrent, 
+      backLeftDriveStatorCurrent, 
+      backLeftTurnStatorCurrent,
+      backRightDriveStatorCurrent,
+      backRightTurnStatorCurrent);
   }
 
   private void configureAutoBuilder() {
@@ -152,6 +188,16 @@ public class SwerveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder
 
   @Override
   public void periodic() {
+    BaseStatusSignal.refreshAll(
+      frontLeftDriveStatorCurrent,
+      frontLeftTurnStatorCurrent,
+      frontRightDriveStatorCurrent, 
+      frontRightTurnStatorCurrent, 
+      backLeftDriveStatorCurrent, 
+      backLeftTurnStatorCurrent,
+      backRightDriveStatorCurrent,
+      backRightTurnStatorCurrent);
+
     /*
      * Periodically try to apply the operator perspective.
      * If we haven't applied the operator perspective before, then we should apply it regardless of DS state.
@@ -179,6 +225,13 @@ public class SwerveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder
     DogLog.log("Swerve/ModuleTargets", swerveState.ModuleTargets);
     DogLog.log("Swerve/Timestamp", swerveState.Timestamp);
     DogLog.log("Swerve/OdometryFrequency", 1.0 / swerveState.OdometryPeriod);
+
+    DogLog.log("Swerve/FrontLeftDrive Stator Current", frontLeftDriveStatorCurrent.getValueAsDouble());
+    //DogLog.log("Swerve/FrontLeftTurn Stator Current", );
+    //DogLog.log("Swerve/", );
+    //DogLog.log("Swerve/", );
+    //DogLog.log("Swerve/", );
+    //DogLog.log("Swerve/", );    
   }
 
   public Command setRotationTarget(RotationTarget rotationTarget) {

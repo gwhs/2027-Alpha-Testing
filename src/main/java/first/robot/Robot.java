@@ -10,6 +10,8 @@ import org.wpilib.framework.TimedRobot;
 import org.wpilib.hardware.bus.CANPort;
 import org.wpilib.hardware.power.PowerDistribution;
 
+import com.ctre.phoenix6.SignalLogger;
+
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
 
@@ -25,12 +27,16 @@ public class Robot extends TimedRobot {
 
     DogLog.setPdh(new PowerDistribution(CANPort.CAN_S0));
 
+    SignalLogger.start();
+
     robotContainer = new RobotContainer();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    robotContainer.periodic();
   }
 
   @Override
