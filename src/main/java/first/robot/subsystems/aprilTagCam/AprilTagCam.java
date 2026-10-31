@@ -1,20 +1,6 @@
 package first.robot.subsystems.aprilTagCam;
 
-import com.ctre.phoenix6.Utils;
 import dev.doglog.DogLog;
-import org.wpilib.math.linalg.Matrix;
-import org.wpilib.math.linalg.VecBuilder;
-import org.wpilib.fields.Field;
-import org.wpilib.math.geometry.Pose2d;
-import org.wpilib.math.geometry.Pose3d;
-import org.wpilib.math.geometry.Transform3d;
-import org.wpilib.math.kinematics.ChassisVelocities;
-import org.wpilib.math.numbers.N1;
-import org.wpilib.math.numbers.N3;
-import org.wpilib.net.PortForwarder;
-import org.wpilib.util.Alert;
-import org.wpilib.util.Alert.Level;
-import org.wpilib.system.Filesystem;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -26,13 +12,26 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.wpilib.fields.Field;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.math.kinematics.ChassisVelocities;
+import org.wpilib.math.linalg.Matrix;
+import org.wpilib.math.linalg.VecBuilder;
+import org.wpilib.math.numbers.N1;
+import org.wpilib.math.numbers.N3;
+import org.wpilib.net.PortForwarder;
+import org.wpilib.system.Filesystem;
+import org.wpilib.util.Alert;
 
 /** Add your docs here. */
 public class AprilTagCam {
 
   private static Field aprilTagFieldLayout;
+
   static {
-        try {
+    try {
       aprilTagFieldLayout =
           Field.loadFromFile(
               Path.of(Filesystem.getDeployDirectory().getPath(), "2026-rebuilt-welded.json"));
@@ -69,7 +68,8 @@ public class AprilTagCam {
     this.currRobotPose = currRobotPose;
     this.currRobotSpeed = currRobotSpeed;
 
-    visionNotConnected = new Alert(name + " NOT CONNECTED", name + "NOT CONNECTED", Alert.Level.HIGH);
+    visionNotConnected =
+        new Alert(name + " NOT CONNECTED", name + "NOT CONNECTED", Alert.Level.HIGH);
 
     photonEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, robotToCam);
 

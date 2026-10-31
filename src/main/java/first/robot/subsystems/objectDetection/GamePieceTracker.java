@@ -1,10 +1,10 @@
 package first.robot.subsystems.objectDetection;
 
+import java.util.LinkedList;
+import java.util.Optional;
 import org.wpilib.math.geometry.Pose2d;
 import org.wpilib.math.geometry.Rotation2d;
 import org.wpilib.system.Timer;
-import java.util.LinkedList;
-import java.util.Optional;
 
 public class GamePieceTracker {
 

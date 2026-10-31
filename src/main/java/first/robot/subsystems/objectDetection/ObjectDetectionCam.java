@@ -1,15 +1,6 @@
 package first.robot.subsystems.objectDetection;
 
 import dev.doglog.DogLog;
-import org.wpilib.math.geometry.Pose2d;
-import org.wpilib.math.geometry.Pose3d;
-import org.wpilib.math.geometry.Rotation2d;
-import org.wpilib.math.geometry.Rotation3d;
-import org.wpilib.math.geometry.Transform2d;
-import org.wpilib.math.geometry.Transform3d;
-import org.wpilib.math.geometry.Translation2d;
-import org.wpilib.math.util.Units;
-import org.wpilib.framework.RobotBase;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -21,6 +12,15 @@ import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.simulation.VisionTargetSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
+import org.wpilib.framework.RobotBase;
+import org.wpilib.math.geometry.Pose2d;
+import org.wpilib.math.geometry.Pose3d;
+import org.wpilib.math.geometry.Rotation2d;
+import org.wpilib.math.geometry.Rotation3d;
+import org.wpilib.math.geometry.Transform2d;
+import org.wpilib.math.geometry.Transform3d;
+import org.wpilib.math.geometry.Translation2d;
+import org.wpilib.math.util.Units;
 
 public class ObjectDetectionCam {
 
