@@ -30,7 +30,16 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 /** Add your docs here. */
 public class AprilTagCam {
 
-  Field aprilTagFieldLayout;
+  private static Field aprilTagFieldLayout;
+  static {
+        try {
+      aprilTagFieldLayout =
+          Field.loadFromFile(
+              Path.of(Filesystem.getDeployDirectory().getPath(), "2026-rebuilt-welded.json"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
   private final PhotonCamera cam;
   private final VisionConsumer addVisionMeasurement;
@@ -53,13 +62,6 @@ public class AprilTagCam {
       Supplier<ChassisVelocities> currRobotSpeed) {
 
     PortForwarder.add(5800, "photonvision.local", 5800);
-    try {
-      aprilTagFieldLayout =
-          new Field(
-              Path.of(Filesystem.getDeployDirectory().getPath(), "2026-rebuilt-welded.json"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
 
     cam = new PhotonCamera(name);
     this.addVisionMeasurement = addVisionMeasurement;
