@@ -58,6 +58,5 @@
     "org.wpilib.math.**.struct.*",
   ],
   "java.debug.settings.enableRunDebugCodeLens": false,
-  "java.dependency.enableDependencyCheckup": false,
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.dependency.enableDependencyCheckup": false
 }

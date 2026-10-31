@@ -133,7 +133,7 @@ public class AprilTagCam {
       }
 
       Pose2d pos = estimPose3d.toPose2d(); // yay :0 im so happy
-      double timestamp = Utils.fpgaToCurrentTime(targetPose.getTimestampSeconds());
+      double timestamp = targetPose.getTimestampSeconds();
       Matrix<N3, N1> sd = findSD(optionalEstimPose, optionalEstimPose.get().targetsUsed);
       acceptedPoseArray[0] = pos;
 
