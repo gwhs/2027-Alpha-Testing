@@ -46,7 +46,7 @@ public class ObjectDetectionCam {
     this.robotToCam = robotToCam;
     targetPoses = new ArrayList<Pose3d>();
 
-    ntKey = "/Object Detection/" + name + "/";
+    ntKey = "Object Detection/" + name + "/";
     if (RobotBase.isSimulation()) {
       this.initSim();
     }
@@ -90,13 +90,13 @@ public class ObjectDetectionCam {
 
     counter++;
     List<PhotonPipelineResult> results = cam.getAllUnreadResults();
-    DogLog.log(ntKey + "Number of Results/", results.size());
+    DogLog.log(ntKey + "Number of Results", results.size());
     DogLog.log(ntKey + "counter", counter);
 
     Pose2d robotPose = this.robotPose.get();
     Pose3d robotPose3d = new Pose3d(robotPose);
     Pose3d cameraPose3d = robotPose3d.plus(robotToCam);
-    DogLog.log(ntKey + "Camera Pose/", cameraPose3d);
+    DogLog.log(ntKey + "Camera Pose", cameraPose3d);
 
     if (results.isEmpty()) {
       return;
@@ -117,14 +117,14 @@ public class ObjectDetectionCam {
       // }
 
       // Calculate the target's position in the field
-      Pose3d targetPose;
 
       double targetYaw = -targets.getYaw();
       double targetPitch = targets.getPitch();
       Translation2d targetLocationToCamera = this.getCameraToTarget(targetYaw, targetPitch);
       Transform2d cameraToTargetTransform2d =
           new Transform2d(targetLocationToCamera, new Rotation2d());
-      targetPose = new Pose3d(cameraPose3d.toPose2d().plus(cameraToTargetTransform2d.inverse()));
+      Pose3d targetPose =
+          new Pose3d(cameraPose3d.toPose2d().plus(cameraToTargetTransform2d.inverse()));
 
       if (filterResults(targetPose)) {
         GamePieceTracker.addTarget(result.getTimestampSeconds(), targetPose.toPose2d());
@@ -133,7 +133,7 @@ public class ObjectDetectionCam {
       // add in game piece tracker then log in the same file (game piece tracker file maybe)
     }
 
-    DogLog.log(ntKey + "Target Pose Array/", targetPoses.toArray(new Pose3d[0]));
+    DogLog.log(ntKey + "Target Pose Array", targetPoses.toArray(new Pose3d[0]));
     targetPoses.clear();
   }
 
