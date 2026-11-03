@@ -69,7 +69,7 @@ public class SwerveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder
   private final StatusSignal<Current> backLeftDriveStatorCurrent = backLeftDrive.getStatorCurrent();
   private final StatusSignal<Current> backLeftTurnStatorCurrent = backLeftTurn.getStatorCurrent();
   private final StatusSignal<Current> backRightDriveStatorCurrent = backRightDrive.getStatorCurrent();
-  private final StatusSignal<Current> backRightTurnStatorCurrent = backRightDrive.getStatorCurrent();
+  private final StatusSignal<Current> backRightTurnStatorCurrent = backRightTurn.getStatorCurrent();
   
   private boolean isLimitAcceleration = false;
 
@@ -227,11 +227,13 @@ public class SwerveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder
     DogLog.log("Swerve/OdometryFrequency", 1.0 / swerveState.OdometryPeriod);
 
     DogLog.log("Swerve/FrontLeftDrive Stator Current", frontLeftDriveStatorCurrent.getValueAsDouble());
-    //DogLog.log("Swerve/FrontLeftTurn Stator Current", );
-    //DogLog.log("Swerve/", );
-    //DogLog.log("Swerve/", );
-    //DogLog.log("Swerve/", );
-    //DogLog.log("Swerve/", );    
+    DogLog.log("Swerve/FrontLeftTurn Stator Current", frontLeftTurnStatorCurrent.getValueAsDouble());
+    DogLog.log("Swerve/FrontRightDrive Stator Current", frontRightDriveStatorCurrent.getValueAsDouble());
+    DogLog.log("Swerve/FrontRightTurn Stator Current", frontRightTurnStatorCurrent.getValueAsDouble());
+    DogLog.log("Swerve/BackLeftDrive Stator Current", backLeftDriveStatorCurrent.getValueAsDouble());
+    DogLog.log("Swerve/BackLeftTurn Stator Current", backLeftTurnStatorCurrent.getValueAsDouble());
+    DogLog.log("Swerve/BackRightDrive Stator Current", backRightDriveStatorCurrent.getValueAsDouble());
+    DogLog.log("Swerve/BackRightTurn Stator Current", backRightTurnStatorCurrent.getValueAsDouble());
   }
 
   public Command setRotationTarget(RotationTarget rotationTarget) {
