@@ -7,6 +7,8 @@ package first.robot;
 import org.wpilib.framework.RobotBase;
 import org.wpilib.system.RobotController;
 
+import com.ctre.phoenix6.swerve.SwerveDrivetrain;
+
 /** Add your docs here. */
 public enum RobotType {
     DEV,
@@ -31,3 +33,4 @@ public static RobotType getRobot() {
     }
   }
 }
+
