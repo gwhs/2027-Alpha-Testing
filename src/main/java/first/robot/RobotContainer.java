@@ -4,10 +4,9 @@
 
 package first.robot;
 
+import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.Commands;
-
-import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 
 public class RobotContainer {
   public static SwerveDrivetrainConstants controller;
@@ -22,7 +21,5 @@ public class RobotContainer {
     return Commands.print("No autonomous command configured");
   }
 
-  public void periodic() {
-    
-  }
+  public void periodic() {}
 }

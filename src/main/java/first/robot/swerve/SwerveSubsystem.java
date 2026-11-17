@@ -129,18 +129,18 @@ public class SwerveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder
   }
 
   public SwerveSubsystem(SwerveDrivetrainConstants controller, SwerveDrivetrainConstants drivetrainconstants,
-        SwerveModuleConstants<TalonFXConfiguration\ frontleft,
-        SwerveModuleConstants<TalonFXConfiguration\ frontright,
-        SwerveModuleConstants<TalonFXConfiguration\ backleft,
-        SwerveModuleConstants<TalonFXConfiguration\ backright) {
+        SwerveModuleConstants<TalonFXConfiguration> frontleft,
+        SwerveModuleConstants<TalonFXConfiguration> frontright,
+        SwerveModuleConstants<TalonFXConfiguration> backleft,
+        SwerveModuleConstants<TalonFXConfiguration> backright) {
     //TODO Auto-generated constructor stub
 }
 
   public SwerveSubsystem(SwerveDrivetrainConstants controller, SwerveDrivetrainConstants drivetrainconstants,
-      SwerveModuleConstants<TalonFXConfiguration\ frontleft,
-      SwerveModuleConstants<TalonFXConfiguration\ frontright,
-      SwerveModuleConstants<TalonFXConfiguration\ backleft,
-      SwerveModuleConstants<TalonFXConfiguration\ backright) {
+      SwerveModuleConstants<TalonFXConfiguration> frontleft,
+      SwerveModuleConstants<TalonFXConfiguration> frontright,
+      SwerveModuleConstants<TalonFXConfiguration> backleft,
+      SwerveModuleConstants<TalonFXConfiguration> backright) {
     //TODO Auto-generated constructor stub
   }
 

@@ -4,16 +4,14 @@
 
 package first.robot;
 
+import com.ctre.phoenix6.SignalLogger;
+import dev.doglog.DogLog;
+import dev.doglog.DogLogOptions;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.CommandScheduler;
 import org.wpilib.framework.TimedRobot;
 import org.wpilib.hardware.bus.CANPort;
 import org.wpilib.hardware.power.PowerDistribution;
-
-import com.ctre.phoenix6.SignalLogger;
-
-import dev.doglog.DogLog;
-import dev.doglog.DogLogOptions;
 
 public class Robot extends TimedRobot {
   private Command autonomousCommand;
@@ -21,9 +19,7 @@ public class Robot extends TimedRobot {
   private final RobotContainer robotContainer;
 
   public Robot() {
-    DogLog.setOptions(
-      new DogLogOptions().withCaptureDs(true)
-    );
+    DogLog.setOptions(new DogLogOptions().withCaptureDs(true));
 
     DogLog.setPdh(new PowerDistribution(CANPort.CAN_S0));
 

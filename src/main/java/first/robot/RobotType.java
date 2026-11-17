@@ -7,30 +7,26 @@ package first.robot;
 import org.wpilib.framework.RobotBase;
 import org.wpilib.system.RobotController;
 
-import com.ctre.phoenix6.swerve.SwerveDrivetrain;
-
 /** Add your docs here. */
 public enum RobotType {
-    DEV,
-    COMP,
-    KITBOT,
-    SIM;
+  DEV,
+  COMP,
+  KITBOT,
+  SIM;
 
-
-public static RobotType getRobot() {
+  public static RobotType getRobot() {
     String serialNumber = RobotController.getSerialNumber();
 
     if (RobotBase.isSimulation()) {
-        return SIM;
+      return SIM;
     } else if (serialNumber.equals("12345678")) {
-        return DEV;
+      return DEV;
     } else if (serialNumber.equals("03223849")) {
-        return COMP;
+      return COMP;
     } else if (serialNumber.equals("0323CA18")) {
-        return KITBOT;
+      return KITBOT;
     } else {
-        return COMP;
+      return COMP;
     }
   }
 }
-

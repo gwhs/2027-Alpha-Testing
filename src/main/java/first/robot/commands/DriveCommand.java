@@ -4,37 +4,34 @@
 
 package first.robot.commands;
 
+import com.ctre.phoenix6.swerve.SwerveRequest;
+import first.robot.swerve.SwerveSubsystem;
+import first.robot.swerve.SwerveSubsystem.RotationTarget;
 import org.wpilib.command2.Command;
 import org.wpilib.command2.button.CommandXboxController;
 import org.wpilib.math.controller.PIDController;
 import org.wpilib.math.filter.SlewRateLimiter;
 import org.wpilib.math.util.MathUtil;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
-
-import first.robot.swerve.SwerveSubsystem;
-import first.robot.swerve.SwerveSubsystem.RotationTarget;
-
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DriveCommand extends Command {
-    private final SwerveSubsystem drivetrain;
-    private final CommandXboxController controller; 
+  private final SwerveSubsystem drivetrain;
+  private final CommandXboxController controller;
 
-    private final SwerveRequest.FieldCentric fieldCentric = new SwerveRequest.FieldCentric();
-    
-    private final double maxSpeed = 4.5; // m/s
-    private final double maxAngularSpeed = 2.5 * Math.PI; // radians / sec
-    
-    private final double deadband = 0.06;
-    
-    private final PIDController robotHeadingController = new PIDController(0.2,0,0);
+  private final SwerveRequest.FieldCentric fieldCentric = new SwerveRequest.FieldCentric();
 
-    private final SlewRateLimiter xVelocityLimiter = new SlewRateLimiter(1);
-    private final SlewRateLimiter yVelocityLimiter = new SlewRateLimiter(1);
-    private final SlewRateLimiter angularVelocityLimiter = new SlewRateLimiter(1);
+  private final double maxSpeed = 4.5; // m/s
+  private final double maxAngularSpeed = 2.5 * Math.PI; // radians / sec
 
-    private boolean shouldResetRateLimiter = true;
+  private final double deadband = 0.06;
 
+  private final PIDController robotHeadingController = new PIDController(0.2, 0, 0);
+
+  private final SlewRateLimiter xVelocityLimiter = new SlewRateLimiter(1);
+  private final SlewRateLimiter yVelocityLimiter = new SlewRateLimiter(1);
+  private final SlewRateLimiter angularVelocityLimiter = new SlewRateLimiter(1);
+
+  private boolean shouldResetRateLimiter = true;
 
   /** Creates a new DriveCommand. */
   public DriveCommand(SwerveSubsystem drivetrain, CommandXboxController controller) {
@@ -42,8 +39,8 @@ public class DriveCommand extends Command {
     this.controller = controller;
 
     robotHeadingController.enableContinuousInput(-180, 180);
-    
-    //if(drivetrain.isLimitAcceleration()){}
+
+    // if(drivetrain.isLimitAcceleration()){}
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
@@ -64,7 +61,7 @@ public class DriveCommand extends Command {
     yInput = MathUtil.applyDeadband(yInput, deadband);
     rotationInput = MathUtil.applyDeadband(rotationInput, deadband);
 
-    //Auto Rotation
+    // Auto Rotation
     boolean hasRotationInput = Math.abs(controller.getRightX()) > 0.1;
 
     if (drivetrain.getRotationTarget() != RotationTarget.NORMAL && !hasRotationInput) {
@@ -76,34 +73,37 @@ public class DriveCommand extends Command {
       rotationInput = pidOutput;
     }
 
-    if(drivetrain.isSlowMode()){
+    if (drivetrain.isSlowMode()) {
       xInput = xInput * drivetrain.getTranslationSlowFactor();
       yInput = yInput * drivetrain.getTranslationSlowFactor();
       rotationInput = rotationInput * drivetrain.getRotationalSlowFactor();
     }
 
     // Limit Acceleration
-    if(drivetrain.isLimitAcceleration()) {
-      if(shouldResetRateLimiter) {
-        shouldResetRateLimiter = false; 
-        xVelocityLimiter.reset(xInput); 
+    if (drivetrain.isLimitAcceleration()) {
+      if (shouldResetRateLimiter) {
+        shouldResetRateLimiter = false;
+        xVelocityLimiter.reset(xInput);
         yVelocityLimiter.reset(yInput);
         angularVelocityLimiter.reset((rotationInput));
       }
       xInput = xVelocityLimiter.calculate(xInput);
       yInput = xVelocityLimiter.calculate(yInput);
       rotationInput = angularVelocityLimiter.calculate(rotationInput);
-    } else { 
-        shouldResetRateLimiter = true;
-      }
+    } else {
+      shouldResetRateLimiter = true;
+    }
 
     double xVelocity = xInput * maxSpeed;
     double yVelocity = yInput * maxSpeed;
     double rotationVelocity = rotationInput * maxAngularSpeed;
-      
-    drivetrain.setControl(fieldCentric.withVelocityX(xVelocity).withVelocityY(yVelocity).withRotationalRate(rotationVelocity));
-    }
-  
+
+    drivetrain.setControl(
+        fieldCentric
+            .withVelocityX(xVelocity)
+            .withVelocityY(yVelocity)
+            .withRotationalRate(rotationVelocity));
+  }
 
   // Called once the command ends or is interrupted.
   @Override
