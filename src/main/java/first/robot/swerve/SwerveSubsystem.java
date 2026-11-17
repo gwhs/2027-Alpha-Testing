@@ -4,6 +4,8 @@ import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.alerts.AlertableCollection;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -124,6 +126,22 @@ public class SwerveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder
       backLeftTurnStatorCurrent,
       backRightDriveStatorCurrent,
       backRightTurnStatorCurrent);
+  }
+
+  public SwerveSubsystem(SwerveDrivetrainConstants controller, SwerveDrivetrainConstants drivetrainconstants,
+        SwerveModuleConstants<TalonFXConfiguration\ frontleft,
+        SwerveModuleConstants<TalonFXConfiguration\ frontright,
+        SwerveModuleConstants<TalonFXConfiguration\ backleft,
+        SwerveModuleConstants<TalonFXConfiguration\ backright) {
+    //TODO Auto-generated constructor stub
+}
+
+  public SwerveSubsystem(SwerveDrivetrainConstants controller, SwerveDrivetrainConstants drivetrainconstants,
+      SwerveModuleConstants<TalonFXConfiguration\ frontleft,
+      SwerveModuleConstants<TalonFXConfiguration\ frontright,
+      SwerveModuleConstants<TalonFXConfiguration\ backleft,
+      SwerveModuleConstants<TalonFXConfiguration\ backright) {
+    //TODO Auto-generated constructor stub
   }
 
   private void configureAutoBuilder() {

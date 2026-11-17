@@ -1,5 +1,15 @@
 package first.robot.swerve;
 
+import static org.wpilib.units.Units.Amps;
+import static org.wpilib.units.Units.Inches;
+import static org.wpilib.units.Units.KilogramSquareMeters;
+import static org.wpilib.units.Units.MetersPerSecond;
+import static org.wpilib.units.Units.Rotations;
+import static org.wpilib.units.Units.Volts;
+
+import org.wpilib.math.linalg.Matrix;
+import org.wpilib.math.numbers.N1;
+import org.wpilib.math.numbers.N3;
 import org.wpilib.units.measure.Angle;
 import org.wpilib.units.measure.Current;
 import org.wpilib.units.measure.Distance;
@@ -76,7 +86,7 @@ public class TunerConstants_mk5n {
 
   // CAN bus that the devices are located on;
   // All swerve devices must share the same CAN bus
-  public static final CANBus kCANBus = new CANBus("CAN_Network", "./logs/example.hoot");
+  public static final CANBus kCANBus = new CANBus("CAN_Network");
 
   // Theoretical free speed (m/s) at 12 V applied output;
   // This needs to be tuned to your individual robot
@@ -104,7 +114,7 @@ public class TunerConstants_mk5n {
 
   public static final SwerveDrivetrainConstants DrivetrainConstants =
       new SwerveDrivetrainConstants()
-          .withCANBusName(kCANBus.getName())
+          .withNetwork(kCANBus)
           .withPigeon2Id(kPigeonId)
           .withPigeon2Configs(pigeonConfigs);
 
@@ -237,7 +247,7 @@ public class TunerConstants_mk5n {
    */
   public static SwerveSubsystem createDrivetrain() {
     return new SwerveSubsystem(
-        RobotContainer.controller, DrivetrainConstants, FrontLeft, FrontRight, BackLeft, BackRight);
+        RobotContainer.controller, DrivetrainConstants);
   }
 
   /** Swerve Drive class utilizing CTR Electronics' Phoenix 6 API with the selected device types. */
