@@ -40,8 +40,6 @@ public class DriveCommand extends Command {
 
     robotHeadingController.enableContinuousInput(-180, 180);
 
-    // if(drivetrain.isLimitAcceleration()){}
-
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
   }
@@ -73,6 +71,7 @@ public class DriveCommand extends Command {
       rotationInput = pidOutput;
     }
 
+    // Slow Mode
     if (drivetrain.isSlowMode()) {
       xInput = xInput * drivetrain.getTranslationSlowFactor();
       yInput = yInput * drivetrain.getTranslationSlowFactor();
@@ -97,7 +96,8 @@ public class DriveCommand extends Command {
     double xVelocity = xInput * maxSpeed;
     double yVelocity = yInput * maxSpeed;
     double rotationVelocity = rotationInput * maxAngularSpeed;
-
+    
+    // Drive (should be last in execute())
     drivetrain.setControl(
         fieldCentric
             .withVelocityX(xVelocity)
