@@ -128,21 +128,14 @@ public class SwerveSubsystem extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder
       backRightTurnStatorCurrent);
   }
 
-  public SwerveSubsystem(SwerveDrivetrainConstants controller, SwerveDrivetrainConstants drivetrainconstants,
-        SwerveModuleConstants<TalonFXConfiguration> frontleft,
-        SwerveModuleConstants<TalonFXConfiguration> frontright,
-        SwerveModuleConstants<TalonFXConfiguration> backleft,
-        SwerveModuleConstants<TalonFXConfiguration> backright) {
-    //TODO Auto-generated constructor stub
-}
-
-  public SwerveSubsystem(SwerveDrivetrainConstants controller, SwerveDrivetrainConstants drivetrainconstants,
-      SwerveModuleConstants<TalonFXConfiguration> frontleft,
-      SwerveModuleConstants<TalonFXConfiguration> frontright,
-      SwerveModuleConstants<TalonFXConfiguration> backleft,
-      SwerveModuleConstants<TalonFXConfiguration> backright) {
-    //TODO Auto-generated constructor stub
-  }
+  public SwerveSubsystem(
+      SwerveDrivetrainConstants drivetrainConstants,
+      SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, ?> frontLeft,
+      SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, ?> frontRight,
+      SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, ?> backLeft,
+      SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, ?> backRight) {
+    this(drivetrainConstants, new SwerveModuleConstants[] { frontLeft, frontRight, backLeft, backRight });
+  } //double check
 
   private void configureAutoBuilder() {
     var config =
